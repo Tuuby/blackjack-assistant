@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import useSWR from "swr";
+import { BlackjackTipp } from "./components/blackjackTipp";
+
+const url = "hier könnte ihre URL stehen";
 
 function App() {
+  const { data: result, error } = useSWR(url);
+
+  if (error) return <h1>Something went wring!</h1>;
+  if (!result) return <h1>Loading...</h1>;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      <h1>Test message</h1>
+      <div>
+        {result.results.map((blackjackTipp: string) => (
+          <BlackjackTipp bjtipp={blackjackTipp} />
+        ))}
+      </div>
+    </main>
   );
 }
 
