@@ -34,7 +34,7 @@ export const CardSelector: FunctionComponent<CardSelectorProps> = ({
                   (card) => card.checked
                 ).length;
                 if (selectionCount >= maxSelection && !card.checked) {
-                  alert("Du darfst nur eine Karte auswählen");
+                  alert(`Du darfst nur ${maxSelection} Karte(n) auswählen`);
                 } else {
                   const newSelection = toggleAtIndex(internalCards, i);
                   setInternalCards(newSelection);
