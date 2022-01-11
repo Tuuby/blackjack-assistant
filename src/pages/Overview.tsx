@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Box, minHeight } from "@mui/system";
 import { request } from "https";
-import { useState } from "react";
+import React, { useState } from "react";
 import { CardSelector } from "../components/CardSelector";
 import { cards, PlayingCard } from "../types/PlayingCard";
 
@@ -54,10 +54,14 @@ const createJsonRequest = (
   nrDecks: number,
   isSoft: boolean,
   isDAS: boolean,
-  dealerCard: PlayingCard,
-  playerCards: PlayingCard[]
+  playerCards: PlayingCard[],
+  dealerCard?: PlayingCard
 ) => {
   let playerCardValue1, playerCardValue2, dealerCardValue: number;
+  if (!dealerCard) {
+    alert("No dealer cards has been selected");
+    return;
+  }
 
   if (playerCards.length < 1) {
     alert("No player cards have been selected");
@@ -91,10 +95,38 @@ const createJsonRequest = (
 
 export const Overview = () => {
   const [serverResponse, setServerResponse] = useState<string>("");
+  const [isCheckedSoft, setCheckedSoft] = useState(false);
+  const [isCheckedDAS, setCheckedDAS] = useState(false);
+  const [playerCards, setPlayerCards] = useState<PlayingCard[]>();
+  const [dealerCards, setDealerCards] = useState<PlayingCard[]>();
+
+  const handleChangeSoft = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedSoft(e.target.checked);
+  };
+  const handleChangeDAS = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedDAS(e.target.checked);
+  };
+
   const handleSubmit = () => {
-    fetch("request URL und so")
-      .then((response) => response.json())
-      .then((text) => setServerResponse(text));
+    if (dealerCards != undefined && playerCards != undefined) {
+      const requestBody: string = createJsonRequest(
+        1,
+        isCheckedSoft,
+        isCheckedDAS,
+        playerCards.filter((card) => card.checked),
+        dealerCards.find((card) => card.checked)
+      )!;
+
+      fetch("URL hier", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: requestBody,
+      })
+        .then((response) => response.json())
+        .then((text) => setServerResponse(text));
+    }
   };
 
   return (
@@ -120,24 +152,36 @@ export const Overview = () => {
         <Paper>
           <h3>Test Form</h3>
           <FormControlLabel
-            control={<Checkbox name="softCheckbox" />}
+            control={
+              <Checkbox
+                name="softCheckbox"
+                onChange={handleChangeSoft}
+                checked={isCheckedSoft}
+              />
+            }
             label="is Soft"
           />
           <FormControlLabel
-            control={<Checkbox name="dasCheckbox" />}
+            control={
+              <Checkbox
+                name="dasCheckbox"
+                onChange={handleChangeDAS}
+                checked={isCheckedDAS}
+              />
+            }
             label="is DAS"
           />
           <Button onClick={handleSubmit}>Submit</Button>
           <h4>Dealer Card (select one)</h4>
           <CardSelector
             cards={cards}
-            onSelectionChange={(selection) => console.log(selection)}
+            onSelectionChange={setDealerCards}
             maxSelection={1}
           />
           <h4>Your Cards (select two)</h4>
           <CardSelector
             cards={cards}
-            onSelectionChange={(selection) => console.log(selection)}
+            onSelectionChange={setPlayerCards}
             maxSelection={2}
           />
         </Paper>
