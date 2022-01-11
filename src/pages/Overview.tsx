@@ -4,13 +4,14 @@ import {
   Container,
   FormControlLabel,
   Paper,
+  TextField,
   Typography,
 } from "@mui/material";
 import { Box, minHeight } from "@mui/system";
 import { request } from "https";
 import React, { useState } from "react";
 import { CardSelector } from "../components/CardSelector";
-import { cards, PlayingCard } from "../types/PlayingCard";
+import { makeCards, PlayingCard } from "../types/PlayingCard";
 
 interface requestJson {
   player_cards: number[];
@@ -59,7 +60,7 @@ const createJsonRequest = (
 ) => {
   let playerCardValue1, playerCardValue2, dealerCardValue: number;
   if (!dealerCard) {
-    alert("No dealer cards has been selected");
+    alert("No dealer card has been selected");
     return;
   }
 
@@ -97,6 +98,7 @@ export const Overview = () => {
   const [serverResponse, setServerResponse] = useState<string>("");
   const [isCheckedSoft, setCheckedSoft] = useState(false);
   const [isCheckedDAS, setCheckedDAS] = useState(false);
+  const [deckNumber, setDeckNumber] = useState<number>();
   const [playerCards, setPlayerCards] = useState<PlayingCard[]>();
   const [dealerCards, setDealerCards] = useState<PlayingCard[]>();
 
@@ -107,10 +109,17 @@ export const Overview = () => {
     setCheckedDAS(e.target.checked);
   };
 
+  const handleChangeDecks = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDeckNumber(+e.target.value);
+  };
+
   const handleSubmit = () => {
-    if (dealerCards != undefined && playerCards != undefined) {
+    if (deckNumber === undefined) {
+      return;
+    }
+    if (dealerCards !== undefined && playerCards !== undefined) {
       const requestBody: string = createJsonRequest(
-        1,
+        deckNumber,
         isCheckedSoft,
         isCheckedDAS,
         playerCards.filter((card) => card.checked),
@@ -150,7 +159,7 @@ export const Overview = () => {
           Blackjack Assistant
         </Typography>
         <Paper>
-          <h3>Test Form</h3>
+          <h3>Enter the specific rules</h3>
           <FormControlLabel
             control={
               <Checkbox
@@ -171,16 +180,23 @@ export const Overview = () => {
             }
             label="is DAS"
           />
+          <TextField
+            id="nrDecksField"
+            label="Number of Decks used"
+            variant="outlined"
+            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+            onChange={handleChangeDecks}
+          />
           <Button onClick={handleSubmit}>Submit</Button>
           <h4>Dealer Card (select one)</h4>
           <CardSelector
-            cards={cards}
+            cards={makeCards()}
             onSelectionChange={setDealerCards}
             maxSelection={1}
           />
           <h4>Your Cards (select two)</h4>
           <CardSelector
-            cards={cards}
+            cards={makeCards()}
             onSelectionChange={setPlayerCards}
             maxSelection={2}
           />
