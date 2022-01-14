@@ -219,8 +219,9 @@ export const Overview = () => {
               disabled
               id="ActionText"
               label="Action:"
-              value={{ action }}
+              value={action}
               variant="standard"
+              fullWidth
             ></TextField>
           </div>
           <h4>Dealer Card (select one)</h4>
