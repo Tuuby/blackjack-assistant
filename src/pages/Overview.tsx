@@ -159,9 +159,11 @@ export const Overview = () => {
         body: requestBody,
       })
         .then((response) => response.json())
-        .then((data) => setServerResponse(data.action));
+        .then((data) => {
+          setServerResponse(data.action);
+          setAction(getActionString(serverResponse!));
+        });
     }
-    setAction(getActionString(serverResponse!));
   };
 
   return (
