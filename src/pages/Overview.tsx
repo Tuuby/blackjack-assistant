@@ -11,6 +11,7 @@ import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { CardSelector } from "../components/CardSelector";
 import { cards, PlayingCard } from "../types/PlayingCard";
+import ACTION_STRINGS_EN from "../components/actionStrings";
 
 interface requestJson {
   player_cards: string[];
