@@ -13,40 +13,40 @@ import { CardSelector } from "../components/CardSelector";
 import { cards, PlayingCard } from "../types/PlayingCard";
 
 interface requestJson {
-  player_cards: number[];
-  dealer_card: number;
+  player_cards: string[];
+  dealer_card: string;
   nrDecks: number;
-  isSoft: string;
-  isDAS: string;
+  isSoft: boolean;
+  isDAS: boolean;
 }
 
 const getCardValue = (card: PlayingCard) => {
   switch (card.value) {
     case "Ace":
-      return 11;
+      return "11";
     case "Two":
-      return 2;
+      return "2";
     case "Three":
-      return 3;
+      return "3";
     case "Four":
-      return 4;
+      return "4";
     case "Five":
-      return 5;
+      return "5";
     case "Six":
-      return 6;
+      return "6";
     case "Seven":
-      return 7;
+      return "7";
     case "Eight":
-      return 8;
+      return "8";
     case "Nine":
-      return 9;
+      return "9";
     case "Ten":
     case "Jack":
     case "Queen":
     case "King":
-      return 10;
+      return "10";
     default:
-      return -1;
+      return "-1";
   }
 };
 
@@ -57,7 +57,7 @@ const createJsonRequest = (
   playerCards: PlayingCard[],
   dealerCard?: PlayingCard
 ) => {
-  let playerCardValue1, playerCardValue2, dealerCardValue: number;
+  let playerCardValue1, playerCardValue2, dealerCardValue: string;
   if (!dealerCard) {
     alert("No dealer card has been selected");
     return;
@@ -80,15 +80,12 @@ const createJsonRequest = (
   }
   dealerCardValue = getCardValue(dealerCard);
 
-  const softValue: string = String(isSoft);
-  const dasValue: string = String(isDAS);
-
   let request = {} as requestJson;
   request.player_cards = [playerCardValue1, playerCardValue2];
   request.dealer_card = dealerCardValue;
   request.nrDecks = nrDecks;
-  request.isSoft = softValue;
-  request.isDAS = dasValue;
+  request.isSoft = isSoft;
+  request.isDAS = isDAS;
 
   return JSON.stringify(request);
 };
@@ -125,7 +122,7 @@ export const Overview = () => {
         dealerCards.find((card) => card.checked)
       )!;
 
-      fetch("URL hier", {
+      fetch("http://127.0.0.1:8000/api/action", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
