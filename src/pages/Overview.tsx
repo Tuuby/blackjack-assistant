@@ -21,6 +21,33 @@ interface requestJson {
   isDAS: boolean;
 }
 
+const getActionString = (actionId: number) => {
+  switch (actionId) {
+    case 0:
+      return ACTION_STRINGS_EN[0];
+    case 1:
+      return ACTION_STRINGS_EN[1];
+    case 2:
+      return ACTION_STRINGS_EN[2];
+    case 3:
+      return ACTION_STRINGS_EN[3];
+    case 4:
+      return ACTION_STRINGS_EN[4];
+    case 5:
+      return ACTION_STRINGS_EN[5];
+    case 6:
+      return ACTION_STRINGS_EN[6];
+    case 7:
+      return ACTION_STRINGS_EN[7];
+    case 8:
+      return ACTION_STRINGS_EN[8];
+    case 9:
+      return ACTION_STRINGS_EN[9];
+    default:
+      return "";
+  }
+};
+
 const getCardValue = (card: PlayingCard) => {
   switch (card.value) {
     case "Ace":
@@ -92,6 +119,7 @@ const createJsonRequest = (
 };
 
 export const Overview = () => {
+  const [action, setAction] = useState<string>("");
   const [serverResponse, setServerResponse] = useState<number>();
   const [isCheckedSoft, setCheckedSoft] = useState(false);
   const [isCheckedDAS, setCheckedDAS] = useState(false);
@@ -131,8 +159,9 @@ export const Overview = () => {
         body: requestBody,
       })
         .then((response) => response.json())
-        .then((text) => setServerResponse(text.action));
+        .then((data) => setServerResponse(data.action));
     }
+    setAction(getActionString(serverResponse!));
   };
 
   return (
@@ -190,7 +219,7 @@ export const Overview = () => {
               disabled
               id="ActionText"
               label="Action:"
-              defaultValue={{ serverResponse }}
+              value={{ action }}
               variant="standard"
             ></TextField>
           </div>
