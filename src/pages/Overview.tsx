@@ -184,9 +184,15 @@ export const Overview = () => {
             onChange={handleChangeDecks}
           />
           <Button onClick={handleSubmit}>Submit</Button>
-          <Box sx={{ display: { xs: "block", md: "none" } }}>
-            {serverResponse}
-          </Box>
+          <div>
+            <TextField
+              disabled
+              id="ActionText"
+              label="Action:"
+              defaultValue={serverResponse}
+              variant="standard"
+            ></TextField>
+          </div>
           <h4>Dealer Card (select one)</h4>
           <CardSelector
             cards={cards}
