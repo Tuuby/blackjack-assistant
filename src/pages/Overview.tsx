@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { request } from "https";
 import React, { useState } from "react";
 import { CardSelector } from "../components/CardSelector";
 import { cards, PlayingCard } from "../types/PlayingCard";
@@ -188,6 +187,9 @@ export const Overview = () => {
             onChange={handleChangeDecks}
           />
           <Button onClick={handleSubmit}>Submit</Button>
+          <Box sx={{ display: { xs: "block", md: "none" } }}>
+            {serverResponse}
+          </Box>
           <h4>Dealer Card (select one)</h4>
           <CardSelector
             cards={cards}
