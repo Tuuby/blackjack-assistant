@@ -120,7 +120,6 @@ const createJsonRequest = (
 
 export const Overview = () => {
   const [action, setAction] = useState<string>("");
-  const [serverResponse, setServerResponse] = useState<number>();
   const [isCheckedSoft, setCheckedSoft] = useState(false);
   const [isCheckedDAS, setCheckedDAS] = useState(false);
   const [deckNumber, setDeckNumber] = useState<number>();
@@ -160,8 +159,7 @@ export const Overview = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          setServerResponse(data.action);
-          setAction(getActionString(serverResponse!));
+          setAction(getActionString(data.action!));
         });
     }
   };
