@@ -1,17 +1,12 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { FunctionComponent, useState } from "react";
 import { PlayingCard } from "../types/PlayingCard";
+import update from "immutability-helper";
 
 type CardSelectorProps = {
   cards: PlayingCard[];
   onSelectionChange: (selection: PlayingCard[]) => void;
   maxSelection: number;
-};
-
-const toggleAtIndex = (array: PlayingCard[], index: number) => {
-  const output = [...array];
-  output[index].checked = !array[index].checked;
-  return output;
 };
 
 export const CardSelector: FunctionComponent<CardSelectorProps> = ({
@@ -23,7 +18,7 @@ export const CardSelector: FunctionComponent<CardSelectorProps> = ({
 
   return (
     <div>
-      {cards.map((card, i) => (
+      {internalCards.map((card, i) => (
         <FormControlLabel
           key={card.id}
           control={
@@ -36,7 +31,15 @@ export const CardSelector: FunctionComponent<CardSelectorProps> = ({
                 if (selectionCount >= maxSelection && !card.checked) {
                   alert(`Du darfst nur ${maxSelection} Karte(n) auswählen`);
                 } else {
-                  const newSelection = toggleAtIndex(internalCards, i);
+                  const newSelection = update(internalCards, {
+                    [i]: {
+                      checked: {
+                        $apply: function (x) {
+                          return !x;
+                        },
+                      },
+                    },
+                  });
                   setInternalCards(newSelection);
                   onSelectionChange(newSelection);
                 }

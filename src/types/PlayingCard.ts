@@ -25,14 +25,12 @@ const values = [
   "King",
 ];
 
-export const makeCards = () => {
-  return colors.flatMap((color, colorIndex) =>
-    values.map((value, valueIndex) => ({
-      color: color,
-      colorIcon: colorIcons[colorIndex],
-      value: value,
-      checked: false,
-      id: valueIndex * 10 + colorIndex,
-    }))
-  );
-};
+export const cards: PlayingCard[] = colors.flatMap((color, colorIndex) =>
+  values.map((value, valueIndex) => ({
+    color: color,
+    colorIcon: colorIcons[colorIndex],
+    value: value,
+    checked: false,
+    id: valueIndex * 10 + colorIndex,
+  }))
+);

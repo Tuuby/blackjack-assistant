@@ -7,11 +7,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Box, minHeight } from "@mui/system";
+import { Box } from "@mui/system";
 import { request } from "https";
 import React, { useState } from "react";
 import { CardSelector } from "../components/CardSelector";
-import { makeCards, PlayingCard } from "../types/PlayingCard";
+import { cards, PlayingCard } from "../types/PlayingCard";
 
 interface requestJson {
   player_cards: number[];
@@ -190,13 +190,13 @@ export const Overview = () => {
           <Button onClick={handleSubmit}>Submit</Button>
           <h4>Dealer Card (select one)</h4>
           <CardSelector
-            cards={makeCards()}
+            cards={cards}
             onSelectionChange={setDealerCards}
             maxSelection={1}
           />
           <h4>Your Cards (select two)</h4>
           <CardSelector
-            cards={makeCards()}
+            cards={cards}
             onSelectionChange={setPlayerCards}
             maxSelection={2}
           />
