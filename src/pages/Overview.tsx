@@ -92,7 +92,7 @@ const createJsonRequest = (
 };
 
 export const Overview = () => {
-  const [serverResponse, setServerResponse] = useState<string>("");
+  const [serverResponse, setServerResponse] = useState<number>();
   const [isCheckedSoft, setCheckedSoft] = useState(false);
   const [isCheckedDAS, setCheckedDAS] = useState(false);
   const [deckNumber, setDeckNumber] = useState<number>();
@@ -131,7 +131,7 @@ export const Overview = () => {
         body: requestBody,
       })
         .then((response) => response.json())
-        .then((text) => setServerResponse(text));
+        .then((text) => setServerResponse(text.action));
     }
   };
 
@@ -190,7 +190,7 @@ export const Overview = () => {
               disabled
               id="ActionText"
               label="Action:"
-              defaultValue={serverResponse}
+              defaultValue={{ serverResponse }}
               variant="standard"
             ></TextField>
           </div>
