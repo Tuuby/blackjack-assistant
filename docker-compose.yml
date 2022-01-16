@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
 
-  sample:
+  app_dev:
     container_name: blackjack-assistant_dev
     build:
       context: .
