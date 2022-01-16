@@ -50,9 +50,9 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 # Docker 
 
-There are two Docker images you can create:
+There are two available Docker containers you can create:
 
-* dev container: <code>docker-compose up -d --build</code>
-* prod container: <code>docker-compose -f docker-compose.prod.yml up -d --build</code>
+* Dev container: <code>docker-compose up -d --build</code>
+* Prod container: <code>docker-compose -f docker-compose.prod.yml up -d --build</code>
 
 For more information see [Dockering a React App](https://mherman.org/blog/dockerizing-a-react-app/)
