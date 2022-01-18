@@ -7,5 +7,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
+    image: grigarzi/blackjack-frontend
     ports:
       - '1337:80'
