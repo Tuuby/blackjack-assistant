@@ -150,7 +150,7 @@ export const Overview = () => {
         dealerCards.find((card) => card.checked)
       )!;
 
-      fetch("http://127.0.0.1:8000/api/action", {
+      fetch("/api/action", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

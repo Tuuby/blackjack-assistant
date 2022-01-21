@@ -7,6 +7,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: grigarzi/blackjack-frontend_dev
     volumes:
       - '.:/app'
       - '/app/node_modules'
